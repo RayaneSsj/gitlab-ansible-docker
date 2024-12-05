@@ -1,0 +1,35 @@
+---
+# tasks/main.yml pour le rôle docker-compose
+
+- name: Vérifier si le répertoire pour Docker existe
+  file:
+    path: "/home/ansible/docker-gitlab"
+    state: directory
+    owner: ansible
+    group: ansible
+    mode: '0755'
+
+- name: Copier le Dockerfile depuis roles/docker-compose/files/
+  copy:
+    src: Dockerfile
+    dest: "/home/ansible/docker-gitlab/Dockerfile"
+    owner: ansible
+    group: ansible
+    mode: '0644'
+
+- name: Copier le fichier docker-compose.yml depuis roles/docker-compose/files/
+  copy:
+    src: docker-compose.yml
+    dest: "/home/ansible/docker-gitlab/docker-compose.yml"
+    owner: ansible
+    group: ansible
+    mode: '0644'
+
+- name: Construire l'image Docker GitLab
+  command: docker build -t gitlab-ce /home/ansible/docker-gitlab
+  become: yes
+
+- name: Démarrer les conteneurs avec docker-compose
+  command: docker-compose -f /home/ansible/docker-gitlab/docker-compose.yml up -d
+  become: yes
+

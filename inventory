@@ -1,0 +1,2 @@
+[gitlab]
+192.168.45.131 ansible_user=ansible

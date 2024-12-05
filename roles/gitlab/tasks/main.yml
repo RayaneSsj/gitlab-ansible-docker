@@ -1,0 +1,13 @@
+---
+- name: Add GitLab repository
+  shell: |
+    curl -sS https://packages.gitlab.com/install/repositories/gitlab/gitlab-ce/script.deb.sh | sudo bash
+
+- name: Install GitLab CE
+  apt:
+    name: gitlab-ce
+    state: present
+    update_cache: yes
+
+- name: Configure GitLab
+  shell: gitlab-ctl reconfigure

@@ -1,0 +1,8 @@
+---
+- name: Setup GitLab Server
+  hosts: gitlab
+  become: yes
+  roles:
+    - common
+    - gitlab
+    - docker-compose
